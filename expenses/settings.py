@@ -81,11 +81,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
+        'USER': 'postgres.bqpmtlgzaybwjamlqxdh',
         'PASSWORD': 'expensetracker123',
-        'HOST': 'db.bqpmtlgzaybwjamlqxdh.supabase.co',
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com', 
         'PORT': '6543',
     }
+   
 }
 
 
