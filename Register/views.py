@@ -12,7 +12,7 @@ def RegisterView(request):
             password = form.cleaned_data['password']
             User.objects.create_user(username=username, email=email, password=password)
             messages.success(request, 'Account created! Please login.')
-            return redirect('login_page')
+            return redirect('login')
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
