@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'expensetracker123',
         'HOST': 'db.bqpmtlgzaybwjamlqxdh.supabase.co',
-        'PORT': '5432',
+        'PORT': '6543',
     }
 }
 
