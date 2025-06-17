@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Transactions</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .btn-back {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #0056b3;
+    }
+
+    .transactions {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .transaction {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border-left: 6px solid #28a745;
+    }
+
+    .transaction.expense {
+      border-left-color: #dc3545;
+    }
+
+    .transaction strong {
+      font-size: 1.1rem;
+      color: #2c3e50;
+    }
+
+    .transaction small {
+      display: block;
+      color: #888;
+      margin-top: 5px;
+      font-size: 0.85rem;
+    }
+
+    .transaction em {
+      display: block;
+      margin-top: 5px;
+      color: #666;
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .no-transactions {
+      text-align: center;
+      color: #999;
+      font-style: italic;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .transaction {
+        padding: 12px;
+      }
+
+      .btn-back {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+      }
+    }
+    .pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  color: #007bff;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.pagination a:hover {
+  text-decoration: underline;
+}
+
+.pagination span {
+  font-weight: 600;
+  color: #333;
+}
+
+  </style>
+</head>
+<body>
+
+  <a href="{% url 'eUI' %}" class="btn-back">← Back to Dashboard</a>
+
+  <div class="transactions">
+  <h2>All Transactions</h2>
+  {% if page_obj.object_list %}
+    {% for txn in page_obj.object_list %}
+      <div class="transaction {% if txn.Expense %}expense{% endif %}">
+        <strong>
+          ₹{% if txn.Income %}{{ txn.Income }}{% else %}{{ txn.Expense }}{% endif %}
+        </strong> - {{ txn.Category }} via {{ txn.Payment_Method }}
+        <small>{{ txn.Date }} at {{ txn.Time }}</small>
+        {% if txn.Notes %}
+          <em>Note: {{ txn.Notes }}</em>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <p class="no-transactions">No transactions yet.</p>
+  {% endif %}
+</div>
+
+
+</body>
+</html>

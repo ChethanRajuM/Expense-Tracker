@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customize Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .settings-container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-container h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .form-group label {
+      font-size: 18px;
+      color: #444;
+    }
+
+    .form-check-input {
+      transform: scale(1.3);
+    }
+
+    .save-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      color: white;
+      background: #007bff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .save-btn:hover {
+      background: #0056b3;
+    }
+
+    @media screen and (max-width: 600px) {
+      .settings-container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .form-group label {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <h2>Customize Dashboard</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.show_income.id_for_label }}">Show Income</label>
+        {{ form.show_income }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.show_expense.id_for_label }}">Show Expense</label>
+        {{ form.show_expense }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.show_balance.id_for_label }}">Show Balance</label>
+        {{ form.show_balance }}
+      </div>
+      <button type="submit" class="save-btn">Save Preferences</button>
+    </form>
+  </div>
+</body>
+</html>
+

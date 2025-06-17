@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.85em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Create Account</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <div class="error">{{ form.username.errors.0 }}</div>
+        {% endif %}
+
+        <label>Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="error">{{ form.email.errors.0 }}</div>
+        {% endif %}
+
+        <label>Password</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+            <div class="error">{{ form.password.errors.0 }}</div>
+        {% endif %}
+
+        <label>Confirm Password</label>
+        {{ form.confirm_password }}
+        {% if form.confirm_password.errors %}
+            <div class="error">{{ form.confirm_password.errors.0 }}</div>
+        {% endif %}
+
+        <input type="submit" value="Register">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+</div>
+
+</body>
+</html>
+
