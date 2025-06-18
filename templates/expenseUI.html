@@ -196,7 +196,8 @@
     }
 
     .theme-toggle {
-      position: fixed;
+      position: absolute;
+      /* or remove this line */
       top: 8px;
       right: 120px;
       font-size: 1.5rem;
@@ -279,6 +280,8 @@
 
     .mobile-menu {
       display: none;
+      /* Important */
+      flex-direction: column;
       flex-direction: column;
       background-color: #fff;
       position: absolute;
@@ -288,6 +291,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       padding: 10px;
       z-index: 999;
+
     }
 
     .mobile-menu a,
@@ -315,8 +319,9 @@
     }
 
     .hidden {
-      display: none;
+      display: none !important;
     }
+
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -324,10 +329,15 @@
         font-size: 2rem;
       }
 
+      #themeToggle {
+        visibility: hidden;
+      }
+
       .btn {
         width: 100%;
         padding: 16px;
         font-size: 1rem;
+        text-align: center;
       }
 
       .transactions h2 {
@@ -498,26 +508,27 @@
       cursor: default;
     }
   </style>
-
 </head>
 
 <body>
 
-  <!-- Mobile Hamburger -->
+  <!-- ✅ Desktop Theme Toggle Button -->
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+
+  <!-- ✅ Mobile Hamburger Menu -->
   <div class="mobile-nav">
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <button onclick="toggleMenu()">☰</button>
+
     <div id="mobileMenu" class="mobile-menu hidden">
-      <form method="post" action="{% url 'logout' %}">
+      <button id="themeToggleMobile" onclick="toggleTheme()">🌙</button>
+      <form method="post" action="{% url 'logout' %}" onsubmit="toggleMenu()">
         {% csrf_token %}
         <button type="submit">Logout</button>
       </form>
     </div>
   </div>
 
-  <!-- Theme Toggle -->
-  <button id="themeToggle" class="theme-toggle">🌙</button>
-
-  <!-- Desktop Logout -->
+  <!-- ✅ Desktop Logout -->
   <div class="logout-desktop">
     <form method="post" action="{% url 'logout' %}">
       {% csrf_token %}
@@ -529,7 +540,7 @@
   </div>
 
   <div class="container">
-    <h1>Welcome, <span class="username">{{ request.user.username }} 😍</span></h1>
+    <h1>Welcome, <span class="username">{{ request.user.username }}</span></h1>
 
     <div class="buttons">
       <a href="{% url 'addincome_page' %}" class="btn btn-income">+ Add Income</a>
@@ -567,8 +578,6 @@
       <a href="{% url 'dashboard_settings' %}" class="btn btn-secondary">Customize Dashboard</a>
     </div>
 
-
-
     <div class="transactions">
       <h2>Recent Transactions</h2>
       {% if transactions %}
@@ -603,31 +612,39 @@
       <p>No expense data available.</p>
       {% endif %}
     </div>
+  </div>
 
+  <!-- ✅ JavaScript Fix for Theme Toggle -->
+  <script>
+    const desktopToggle = document.getElementById("themeToggle");
+    const mobileToggle = document.getElementById("themeToggleMobile");
+    const menu = document.getElementById("mobileMenu");
 
+    function updateThemeIcon() {
+      const icon = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+      desktopToggle.textContent = icon;
+      mobileToggle.textContent = icon;
+    }
 
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+      updateThemeIcon();
+    }
 
-    <script>
-      function toggleMenu() {
-        document.getElementById("mobileMenu").classList.toggle("hidden");
-      }
+    function toggleMenu() {
+      menu.classList.toggle("hidden");
+    }
 
-      const toggle = document.getElementById('themeToggle');
-      function updateIcon() {
-        toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-      }
+    // Initial setup
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
+    }
+    updateThemeIcon();
 
-      if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-      }
-      updateIcon();
+    desktopToggle.addEventListener("click", toggleTheme);
+  </script>
 
-      toggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-        updateIcon();
-      });
-    </script>
 </body>
 
 </html>
