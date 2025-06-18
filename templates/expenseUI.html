@@ -621,14 +621,14 @@
     const menu = document.getElementById("mobileMenu");
 
     function updateThemeIcon() {
-      const icon = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+      const icon = document.body.classList.contains("light-mode") ? "🌙" : "☀️";
       desktopToggle.textContent = icon;
       mobileToggle.textContent = icon;
     }
 
     function toggleTheme() {
-      document.body.classList.toggle("dark-mode");
-      localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+      document.body.classList.toggle("light-mode");
+      localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
       updateThemeIcon();
     }
 
@@ -637,8 +637,8 @@
     }
 
     // Initial setup
-    if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add("dark-mode");
+    if (localStorage.getItem("theme") === "light") {
+      document.body.classList.add("light-mode");
     }
     updateThemeIcon();
 
